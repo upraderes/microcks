@@ -221,6 +221,43 @@ mongodb:
   # MongoDB uri parameters are appended after the database name
   #uriParameters: "?ssl=true"
 
+  # Set to true when uri is a fully-formed connection string and must be used verbatim
+  # (no database name or uriParameters appended). Required for CosmosDB connection strings.
+  uriRaw: false
+
+  # --- External MongoDB with credentials in values ---
+  # install: false
+  # uri: mongodb+srv://${SPRING_MONGODB_USER}:${SPRING_MONGODB_PASSWORD}@cluster0.myalias.mongodb.net
+  # database: microcks
+  # uriParameters: "?retryWrites=true&w=majority"
+  # username: myMongoUser
+  # password: myMongoPassword
+
+  # --- External MongoDB with credentials in existing Secret ---
+  # install: false
+  # uri: mongodb+srv://${SPRING_MONGODB_USER}:${SPRING_MONGODB_PASSWORD}@cluster0.myalias.mongodb.net
+  # database: microcks
+  # secretRef:
+  #   secret: my-mongodb-secret
+  #   usernameKey: username
+  #   passwordKey: password
+
+  # --- Azure CosmosDB for MongoDB API with embedded credentials ---
+  # install: false
+  # uriRaw: true
+  # uri: "mongodb://<account>:<primary-key>@<account>.mongo.cosmos.azure.com:10255/microcks?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@<account>@"
+  # database: microcks
+
+  # --- Azure CosmosDB for MongoDB API with credentials in existing Secret ---
+  # install: false
+  # uriRaw: true
+  # uri: "mongodb://${SPRING_MONGODB_USER}:${SPRING_MONGODB_PASSWORD}@<account>.mongo.cosmos.azure.com:10255/microcks?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@<account>@"
+  # database: microcks
+  # secretRef:
+  #   secret: my-cosmosdb-secret
+  #   usernameKey: username
+  #   passwordKey: password
+
   image:
     registry:
     repository: library/mongo

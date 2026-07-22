@@ -54,7 +54,12 @@ spec:
           - name: SPRING_PROFILES_ACTIVE
             value: prod{{ if .Values.microcks.extraProperties }},extra{{ end }}
           - name: SPRING_MONGODB_URI
+            {{- if .Values.mongodb.uriRaw }}
+            value: {{ .Values.mongodb.uri }}
+            {{- else }}
             value: {{ .Values.mongodb.uri | default (print "mongodb://${SPRING_MONGODB_USER}:${SPRING_MONGODB_PASSWORD}@" .Values.appName "-mongodb:27017") }}/${SPRING_MONGODB_DATABASE}{{ .Values.mongodb.uriParameters }}
+            {{- end }}
+          {{- if or .Values.mongodb.install (hasKey .Values.mongodb "secretRef") .Values.mongodb.username }}
           - name: SPRING_MONGODB_USER
             valueFrom:
               secretKeyRef:
@@ -75,6 +80,7 @@ spec:
                 key: password
                 name: "{{ .Values.appName }}-mongodb-connection"
                 {{- end }}
+          {{- end }}
           - name: SPRING_MONGODB_DATABASE
             value: {{ .Values.mongodb.database | default .Values.appName }}
           - name: POSTMAN_RUNNER_URL
